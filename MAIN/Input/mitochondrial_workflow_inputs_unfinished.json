@@ -1,0 +1,70 @@
+{
+   "MitochondriaPipeline.module_gatk_version": "gatk/4.1.3.0",
+   "MitochondriaPipeline.AlignAndCall.Filter.module_gatk_version": "gatk/4.1.3.0",
+   "MitochondriaPipeline.AlignAndCall.MergeStats.module_gatk_version": "gatk/4.1.3.0",
+
+   "MitochondriaPipeline.AlignAndCall.module_bwa_version": "bwa/0.7.13",
+   "MitochondriaPipeline.AlignAndCall.AlignToMt.module_bwa_version": "bwa/0.7.13",
+   "MitochondriaPipeline.AlignAndCall.AlignToShiftedMt.module_bwa_version": "bwa/0.7.13",
+
+   "MitochondriaPipeline.AlignAndCall.module_python_version": "python/3.6.1",
+   "MitochondriaPipeline.AlignAndCall.GetContamination.module_python_version": "python/3.6.1",
+
+   "MitochondriaPipeline.module_samtools_version": "samtools/1.9",
+   "MitochondriaPipeline.AlignAndCall.module_samtools_version": "samtools/1.9",
+
+   "MitochondriaPipeline.module_r_version": "R/3.5.1",
+   "MitochondriaPipeline.AlignAndCall.module_r_version": "R/3.5.1",
+   "MitochondriaPipeline.CoverageAtEveryBase.module_r_version": "R/3.5.1",
+
+   "MitochondriaPipeline.module_picard_version": "picardtools/2.20.1",
+   "MitochondriaPipeline.AlignAndCall.AlignToShiftedMt.module_picard_version": "picardtools/2.20.1",
+   "MitochondriaPipeline.AlignAndCall.AlignToMt.module_picard_version": "picardtools/2.20.1",
+   "MitochondriaPipeline.AlignAndCall.CollectWgsMetrics.module_picard_version": "picardtools/2.20.1",
+
+   "MitochondriaPipeline.AlignAndCall.GetContamination.module_haplochecker_location": "/hpc/pmc_vanboxtel/projects/jip_mito/mitolib-0.1.2.jar",
+   "MitochondriaPipeline.AlignAndCall.module_haplochecker_location": "/hpc/pmc_vanboxtel/projects/jip_mito/mitolib-0.1.2.jar",
+
+   "MitochondriaPipeline.AlignAndCall.CallShiftedMt.make_bamout": "Yes",
+   "MitochondriaPipeline.AlignAndCall.CallMt.make_bamout": "Yes",
+
+   "MitochondriaPipeline.mt_dict" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.dict",
+   "MitochondriaPipeline.mt_fasta" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta",
+   "MitochondriaPipeline.mt_fasta_index" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.fai",
+   "MitochondriaPipeline.mt_amb" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.amb",
+   "MitochondriaPipeline.mt_ann" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.ann",
+   "MitochondriaPipeline.mt_bwt" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.bwt",
+   "MitochondriaPipeline.mt_pac" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.pac",
+   "MitochondriaPipeline.mt_sa" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.fasta.sa",
+
+   "MitochondriaPipeline.mt_shifted_dict" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.dict",
+   "MitochondriaPipeline.mt_shifted_fasta" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta",
+   "MitochondriaPipeline.mt_shifted_fasta_index" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.fai",
+   "MitochondriaPipeline.mt_shifted_amb" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.amb",
+   "MitochondriaPipeline.mt_shifted_ann" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.ann",
+   "MitochondriaPipeline.mt_shifted_bwt" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.bwt",
+   "MitochondriaPipeline.mt_shifted_pac" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.pac",
+   "MitochondriaPipeline.mt_shifted_sa" : "/hpc/pmc_vanboxtel/data/mito_bucket/Homo_sapiens_assembly38.chrM.shifted_by_8000_bases.fasta.sa",
+
+   "MitochondriaPipeline.contig_name" : "MT",
+
+   "MitochondriaPipeline.control_region_shifted_reference_interval_list" : "/hpc/pmc_vanboxtel/data/mito_bucket/control_region_shifted.chrM.interval_list",
+   "MitochondriaPipeline.non_control_region_interval_list" : "/hpc/pmc_vanboxtel/data/mito_bucket/non_control_region.chrM.interval_list",
+
+   "MitochondriaPipeline.shift_back_chain": "/hpc/pmc_vanboxtel/data/mito_bucket/ShiftBack.chain",
+
+   "MitochondriaPipeline.blacklisted_sites": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.bed",
+   "MitochondriaPipeline.blacklisted_sites_M_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploM.bed.gz.tbi",
+   "MitochondriaPipeline.blacklisted_sites_M": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploM.bed.gz",
+   "MitochondriaPipeline.blacklisted_sites_N": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploN.bed.gz",
+   "MitochondriaPipeline.blacklisted_sites_N_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploN.bed.gz.tbi",
+   "MitochondriaPipeline.blacklisted_sites_L": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploL.bed.gz",
+   "MitochondriaPipeline.blacklisted_sites_L_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploL.bed.gz.tbi",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.bed",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_M_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploM.bed.gz.tbi",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_M": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploM.bed.gz",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_N": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploN.bed.gz",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_N_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploN.bed.gz.tbi",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_L": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploL.bed.gz",
+   "MitochondriaPipeline.AlignAndCall.blacklisted_sites_L_i": "/hpc/pmc_vanboxtel/data/mito_bucket/blacklist_sites.hg38.chrM.haploL.bed.gz.tbi",
+

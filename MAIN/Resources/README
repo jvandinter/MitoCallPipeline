@@ -1,0 +1,1 @@
+Shifted reference has been rotated by 8000 bases. To shift back if loc < 8570 then loc + 8000 else loc - 8569. We shifted the reference in order to account for the fact that the mitochondria is circular but we use a linear aligner. This increases sensitivity and precision.
