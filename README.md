@@ -2,7 +2,7 @@
 
 The pipeline described here calls mitochondrial SNVs and small indels in hg38 WGS BAM files. Additional filtering is supplied in functions for R. 
 
-This pipeline is originally created by the [GATK](https://github.com/gatk-workflows/gatk4-mitochondria-pipeline) and slightly modified by me.
+This pipeline is originally created by the [GATK](https://github.com/gatk-workflows/gatk4-mitochondria-pipeline) and modified by me. Addded haplogroup-based blacklisting.
 
 
 ## Using the pipeline
