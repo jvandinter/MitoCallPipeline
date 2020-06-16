@@ -7,7 +7,7 @@ This pipeline is originally created by the [GATK](https://github.com/gatk-workfl
 
 ## Using the pipeline
 
-A step-by-step tutorial is provided on a vignette [here](https://github.com/jvandinter/MitoCallPipeline/vignette/). 
+A step-by-step tutorial is provided on a vignette [here](https://github.com/jvandinter/MitoCallPipeline/tree/master/Vignette). 
 
 ## Getting help
 
