@@ -23,14 +23,17 @@ load("mito_project.RData")
 
 ## Introduction
 
-This vignette serves as a tutorial for a pipeline to call mutations in mitochondrial DNA adapted from the [GATK pipeline](https://github.com/gatk-workflows/gatk4-mitochondria-pipeline). It will guide you how to process your __WGS hg38 BAM file__ into an __R dataframe__ containing potential somatic mutations. In addition it will show some basic plotting functions to visualise the data and some models I have created based on my own data. 
+This vignette serves as a tutorial for a pipeline to call mutations in mitochondrial DNA adapted from the [GATK pipeline](https://github.com/gatk-workflows/gatk4-mitochondria-pipeline) and filter for somatic mutations. It will guide you how to process your __WGS hg38 BAM file__ into an __R dataframe__ containing potential somatic mutations. In addition it will show some basic plotting functions to visualise the data and some models we have created for our own dataset. 
 
 __Required input__:
 
  - hg38 WGS BAM file
  - File with median / mean coverage of the autosome from the IAP pipeline
+   + Located for our IAP in: `HG38_MAP_LOC/QCSTATS/SAMPLE_dedup/SAMPLE_dedup.WGSMetrics.txt`
+   + The python script assumes this file structure as input. If this is not the case, it is better to create a small script yourself to finish the JSON files.
  - Reference fasta 
  - List / table of samples and additional data 
+   + An example can be found under `Downstream Analysis`
 
 __Required software__:
 
@@ -39,27 +42,37 @@ __Required software__:
   + GATK 4.1.2 or later
   + SGE backend (SLURM backend support might be released)
 - __For the analysis__:
-  + Latest R version
+  + R version 4.0.0 or later
   + The analysis in R requires the following packages:
   
 ```{r eval = FALSE} 
-library(tidyverse)
-library(ggbeeswarm)
-library(MutationalPatterns)
-library(VariantAnnotation)
-library(ggpubr)
-library(ggrepel)
-library(ggsci)
-library(RColorBrewer)
-library(lme4)
-library(nlme)
-library(regioneR)
-library(karyoploteR)
-library(magrittr)
-library(car)
-library(BSgenome.Hsapiens.UCSC.hg38)
-library(gridExtra)
+tidyverse
+ggbeeswarm
+MutationalPatterns
+VariantAnnotation
+ggpubr
+ggrepel
+ggsci
+RColorBrewer
+lme4
+nlme
+regioneR
+karyoploteR
+magrittr
+car
+BSgenome.Hsapiens.UCSC.hg38
+gridExtra
 ```
+
+## Installing Cromwell
+
+Cromwell is required for the WDL files to run. There are multiple ways to install Cromwell for your local machine or on your local cluster:
+
+- For your local machine:
+  + https://cromwell.readthedocs.io/en/stable/Getting/
+- For your local cluster:
+  + https://cromwell.readthedocs.io/en/stable/backends/HPC/
+  + Ask your system admins for help!
 
 ## Setting up the pipeline folder structure
 
@@ -90,17 +103,16 @@ __Inputs directory__
 
 __Resources directory__
 
-- `Blacklist files provided` [here](https://github.com/jvandinter/MitoCallPipeline/bucket/)
-- `MT pipeline resource files from the` [GATK bucket](https://github.com/jvandinter/MitoCallPipeline/bucket/) `I have hosted`
+- `MT pipeline resource files from the` [GATK bucket](https://github.com/jvandinter/MitoCallPipeline/tree/master/MAIN/Resources) `I have hosted`
 - `This does not have to be in the` ___MAIN directory___`, it can go anywhere else as long as you update mitochondrial_workflow_inputs_unfinished.json`
 
->__!!!__ If you do not have the mitochondrial resources directory set up yet, open `mitochondrial_workflow_inputs_unfinished.json` in your favorite text editor and change the location of all files to your own chosen location to unpack the required sequence files.
+>__!!!__ If this is a first-time setup, open `mitochondrial_workflow_inputs_unfinished.json` in your favorite text editor and change the location of all files to the correct location where you stored the resource files.
 
 ---
 
 Open the `mitopipeline.config` file and edit the path of the following variables:
 
-- `MAIN_LOC`
+- `MAIN_DIR`
   + This is the main directory which contains all the required files for the analysis
 - `WORK_LOC`
   + This is the directory name which will contain all the output folders
@@ -119,10 +131,10 @@ Open the `mitopipeline.config` file and edit the path of the following variables
 
 ### Run the script
 
-You can now run the pipeline with the following command on the HPC:
+You can now run the pipeline with the following command in your environment:
 
 ```{r, eval = FALSE}
-cd `Insert your MAIN_LOC here`
+cd `Insert your MAIN_dir here`
 ```
 
 ```{r, eval = FALSE}
@@ -131,7 +143,7 @@ qsub mito_pipeline_start.sh `your email`
 
 Each sample will take on average 30 minutes
 
-> __!!!__ If the files fail due to abort and time constrictions, just submit the job again. The script will automatically detect which samples have been finished and continue on with the others.
+> __!!!__ If the files fail due to reaching the time limit, just submit the job again. The script will automatically detect which samples have been finished and continue on with the others.
 
 ---
 
@@ -165,13 +177,36 @@ All the annotated VCF files are located in `MAIN_LOC/annotated_vcfs/`.
 
 ## Downstream analysis
 
-Firstly, copy the output and annotated_vcfs files from the HPC to your local computer or source them from the HPC mount.
+Firstly, copy the output and annotated_vcfs files from your local cluster to your local computer or source them from the cluster.
 
 __Required files:__
 
 - All (annotated) VCF files
-- WGSMetrics text file per sample (if interested in copy number variation)
-- All function files found on [GitHub](https://github.com/jvandinter/MitoCallPipeline/bucket/)
+- SAMPLE_WGSMetrics.txt file per sample (if interested in copy number variation)
+- All function files found on [GitHub](https://github.com/jvandinter/MitoCallPipeline/tree/master/functions)
+- The following packages:
+
+> __!!!__ Some packages require __BioCManager__ for their correct installation. Use the following command:
+```{}
+BiocManager::install('package')
+```
+
+```{r eval = FALSE} 
+library(tidyverse)
+library(ggbeeswarm)
+library(MutationalPatterns)
+library(VariantAnnotation)
+library(ggpubr)
+library(ggrepel)
+library(lme4)
+library(nlme)
+library(regioneR)
+library(karyoploteR)
+library(magrittr)
+library(car)
+library(BSgenome.Hsapiens.UCSC.hg38)
+library(gridExtra)
+```
 
 ```{r include = FALSE} 
 library(tidyverse)
@@ -209,8 +244,6 @@ vcf_filter <- "*\\_snpSift.vcf$" # To select annotated VCFs
 ref_genome <- "BSgenome.Hsapiens.UCSC.hg38"
 low_vaf_filter <- 0.01 # The lower and upper bound of VAF filtering, as by GATK recommendation
 high_vaf_filter <- 0.99
-vcf_filter <- '.*\\.vcf$' # or '.*\\snpSift$' when using the annotated files
-max_missing_calls <- 3  # Threshold of calls when to look for the variant in unfiltered calls
 ```
 
 When all parameters are set up, you can execute the following commands to load all functions from your function directory:
@@ -221,7 +254,7 @@ files_list <- list.files(pattern = '.R$', ignore.case = T)
 sapply(files_list, source, .GlobalEnv)
 ```
 
-Let's first take a look at the coverage of our samples, to see whether they reach the threshold of at least 1000 coverage:
+Let's first take a look at the coverage of the samples, to see whether they reach the threshold of at least 1000 coverage:
 
 ```{r eval=FALSE}
 cnv_df <- calculate_mito_cnv(wd = wgs_wd, 
@@ -243,6 +276,9 @@ plot_coverage = ggplot(cnv_df,
   xlab("Patient Source") +
   ylab("Mean MT Coverage (log10)") +
   theme_BM() +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust = 1)) +
   guides(color=FALSE) +
   scale_y_log10(labels = scales::comma)
 
@@ -274,7 +310,7 @@ removed_samples <- cnv_df[,cnv_df$cnv_mean < 1000]$sample
 sample_reference_df <- filter(sample_reference_df, !(sample %in% removed_samples))
 ```
 
-With the final sample list, we can start loading 
+With the final sample list, we can start loading the VCFs.
 
 ---
 
@@ -295,7 +331,7 @@ all_variants <- grab_all_variants(ref_genome = ref_genome,
 annotated_variants <- grab_variant_annotations(vcf_filter = vcf_filter)
 ```
 
-These functions will usew the files for various things:
+These functions will use the files for various things:
 
 - __Per_base_coverage__
   + Output is a data frame containing a base-per-base coverage overview for each sample
@@ -304,7 +340,7 @@ These functions will usew the files for various things:
 - __create_variant_df__
   + Take all PASSED variants from passed_vcflist and puts them in a data frame. Annotates variants with sample of origin, patient origin, etc.
 - __filtered_variants__
-  + Filter variants based on criteria named in [the report](github.com/MitoCallPipeline/pdf/here)
+  + Filter variants on quality variables (see [the final report](https://github.com/jvandinter/MitoCallPipeline/tree/master/Report))
 - __somatic_variant_df__
   + Filter variants on VAF
 
@@ -329,26 +365,6 @@ somatic_variant_df <- combine_mito_data(shared_mutation_output = filtered_varian
                          vaf_output = vaf_df,
                          low_vaf_filter = low_vaf_filter,
                          high_vaf_filter = high_vaf_filter)
-
-indel_df <- filter(somatic_variant_df, 
-                   nchar(somatic_variant_df$ref) > 1 | nchar(somatic_variant_df$alt) > 1)
-indel_df$indel <- ifelse(nchar(indel_df$ref) > nchar(indel_df$alt), 
-                         'deletion', 
-                         'insertion')
-indel_annotate <- left_join(indel_df, annotated_variants,
-                               by = c('variant', 'sample'))
-
-# Remove INDELs from somatic_variant_df
-
-somatic_variant_df <- anti_join(somatic_variant_df, indel_df, 
-                 by = 'variant')
-somatic_variant_annotate <- left_join(somatic_variant_df, annotated_variants, 
-                          by = c('variant', 'sample'))
-
-# Calculate number of mutations per sample
-
-total_sample_mutation_freq <- count_variant_occurences(combined_mito_df = somatic_variant_df,
-                                                       mito_reference_df =sample_reference_df)
 ```
 
 This will create a coverage plot for each sample:
@@ -373,6 +389,12 @@ Here, we split the INDELs from the SNVs and annotate the variants where applicab
   + Calculates the number of somatic mutations per sample
 
 ```{r eval=FALSE}
+
+# Calculate number of mutations per sample
+
+total_sample_mutation_freq <- count_variant_occurences(combined_mito_df = somatic_variant_df,
+                                                       mito_reference_df =sample_reference_df)
+
 # Split SNPs and INDELs
 
 indel_df <- filter(somatic_variant_df, 
@@ -477,7 +499,7 @@ healthy_ga_granges <- unique(GRanges(seqnames = Rle("chrM", nrow(healthy_g_a)),
                       alt = healthy_g_a$alt))
 ```
 
-___single_type_occurences___ will output a count dataframe with count data for each type of mutation.
+___single_type_occurence___ will output a count dataframe with count data for each type of mutation.
 
 ```{r eval=FALSE}
 healthy_mutprof <- single_type_occurence(healthy_granges,
@@ -489,8 +511,6 @@ healthy_ct_mutprof <- single_type_occurence(healthy_ct_granges,
 healthy_ga_mutprof <- single_type_occurence(healthy_ga_granges,
                                     ref_genome,
                                     healthy_freq)
-
-healthy_combined <- rbind(healthy_mutprof, healthy_ct_mutprof, healthy_ga_mutprof)
 
 healthy_combined <- rbind(healthy_mutprof, healthy_ct_mutprof, healthy_ga_mutprof)
 ```
@@ -540,7 +560,7 @@ kpAddLabels(kp, labels = c("Distance between mutations (log10)"),
 
 ### GLMM Modelling
 
-A generalised linear mixed effects model (GLMM) is used to see here whether age has an effect on mutation frequency. A GLMM is used, due to the fact that it can handle the sparse count data (poisson distribution). A linear mixed effects model is used as it handles the patients with different sample numbers correctly. Here, mutation frequency (freq) is the response variable, age is the random variable, and patient is the grouping variable. A random slope based on age is calculated.
+A generalised linear mixed effects model (GLMM) is used to see here whether age has an effect on mutation frequency. A GLMM is used, due to the fact that it can handle the sparse count data (poisson distribution). A linear mixed effects model is used as it corrects for the different number of samples per patient / donor. Here, mutation frequency (freq) is the response variable, age is the random variable, and patient is the grouping variable. A random slope based on age is calculated.
 
 ```{r eval=FALSE}
 ageline_freq_model <- glmer(freq ~ age + (0 + age | patient), 
@@ -751,4 +771,8 @@ plot_healthy_cnv
 
 ---
 
-If you have any further questions, reach out to me or Freek Manders.
+If you have any further questions, reach out to me (j.t.vandinter-3@prinsesmaximacentrum.nl) or Freek Manders (f.m.Manders@prinsesmaximacentrum.nl.
+
+```{r}
+sessionInfo()
+```
